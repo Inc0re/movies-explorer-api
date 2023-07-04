@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "npx eslint .",
     "start": "node app.js",
-    "dev": "node app.js --watch"
+    "dev": "node --watch app.js"
   },
   "repository": {
     "type": "git",
