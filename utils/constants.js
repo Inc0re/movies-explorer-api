@@ -13,5 +13,4 @@ module.exports = {
   mongoDuplicateKeyError: 11000,
   saltRounds: 10,
   jwtSecret: JWT_SECRET,
-  urlTemplate: /(https?:\/\/)(www\.)?([a-z\d-]+\.)+([a-z]{2,6})(\/[A-Za-z\d\-._~:/?#[\]@!$&'()*+,;=]+)*\/?$/,
 };
