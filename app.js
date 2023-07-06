@@ -7,19 +7,21 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { celebrate, errors } = require('celebrate');
 const { login, createUser, logOut } = require('./controllers/users');
-const auth = require('./middlewares/auth');
 const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
 const userValidator = require('./utils/validators/userValidator');
+const auth = require('./middlewares/auth');
+const checkAdminId = require('./middlewares/check-admin-id');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { mongoDBpath, corsOrigins } = require('./utils/constants');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:3000'], // !!! add origin domain
+    origin: corsOrigins,
     credentials: true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   }),
@@ -41,20 +43,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/moviesexplorerdb', {
+mongoose.connect(mongoDBpath, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 // Request logger
 app.use(requestLogger);
-
-// Crash test app
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
 
 // Unprotected routes
 app.post('/signin', celebrate(userValidator.createOrLogin), login);
@@ -66,6 +61,12 @@ app.get('/logout', logOut);
 // Protected routes
 app.use('/users', auth, usersRouter);
 app.use('/movies', auth, moviesRouter);
+// Crash test app
+app.get('/crash', auth, checkAdminId, () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 // Error logger
 app.use(errorLogger);
