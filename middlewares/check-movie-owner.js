@@ -1,6 +1,5 @@
 const Movie = require('../models/movie');
-// !!! temp admin id
-const { adminId } = require('../utils/constants');
+const User = require('../models/user');
 const {
   BadRequestError,
   ForbiddenError,
@@ -12,11 +11,15 @@ module.exports = (req, res, next) => {
     .then((movie) => {
       if (!movie) {
         next(new NotFoundError(`Нет карточки с id ${req.params.movieId}`));
-      } else if (
-        movie.owner.toString() !== req.user._id
-        && req.user._id !== adminId // !!! temp admin id
-      ) {
-        next(new ForbiddenError('Нет прав на удаление'));
+      } else if (movie.owner.toString() !== req.user._id) {
+        User.checkAdminFlag(req.user._id)
+          .then((isAdmin) => {
+            if (isAdmin) {
+              next();
+            } else {
+              next(new ForbiddenError('Нет прав на удаление'));
+            }
+          }).catch(next);
       } else {
         next();
       }
