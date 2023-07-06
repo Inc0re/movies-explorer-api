@@ -73,9 +73,7 @@ const updateUser = (req, res, next) => {
 
 // Errors: 400 - bad request, 409 - conflict, 500 - server error
 const createUser = (req, res, next) => {
-  const {
-    email, password, name, about, avatar,
-  } = req.body;
+  const { email, password, name } = req.body;
 
   bcrypt
     .hash(password, saltRounds)
