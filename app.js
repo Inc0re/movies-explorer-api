@@ -5,7 +5,12 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const { errors } = require('celebrate');
+const { celebrate, errors } = require('celebrate');
+const { login, createUser, logOut } = require('./controllers/users');
+const auth = require('./middlewares/auth');
+const usersRouter = require('./routes/users');
+const moviesRouter = require('./routes/movies');
+const userValidator = require('./utils/validators/userValidator');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -52,8 +57,15 @@ app.get('/crash-test', () => {
 });
 
 // Unprotected routes
+app.post('/signin', celebrate(userValidator.createOrLogin), login);
+app.post('/signup', celebrate(userValidator.createOrLogin), createUser);
+
+// Logout
+app.get('/logout', logOut);
 
 // Protected routes
+app.use('/users', auth, usersRouter);
+app.use('/movies', auth, moviesRouter);
 
 // Error logger
 app.use(errorLogger);
