@@ -11,7 +11,7 @@ const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
 const userValidator = require('./utils/validators/userValidator');
 const auth = require('./middlewares/auth');
-const checkAdminId = require('./middlewares/check-admin-id');
+const checkAdminFlag = require('./middlewares/check-admin-flag');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { mongoDBpath, corsOrigins } = require('./utils/constants');
@@ -62,7 +62,7 @@ app.get('/logout', logOut);
 app.use('/users', auth, usersRouter);
 app.use('/movies', auth, moviesRouter);
 // Crash test app
-app.get('/crash', auth, checkAdminId, () => {
+app.get('/crash', auth, checkAdminFlag, () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
