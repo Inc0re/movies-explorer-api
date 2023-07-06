@@ -11,7 +11,7 @@ const {
 
 router.get('/', checkAdminFlag, getUsers); // for admin only
 router.get('/me', celebrate(userValidator.userID), getUserByMe);
-router.get('/:id', celebrate(userValidator.userID), getUserById);
+router.get('/:id', checkAdminFlag, celebrate(userValidator.userID), getUserById);
 router.patch('/me', celebrate(userValidator.updateUser), updateUser);
 
 module.exports = router;
