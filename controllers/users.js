@@ -83,8 +83,6 @@ const createUser = (req, res, next) => {
       email,
       password: hash,
       name,
-      about,
-      avatar,
     }))
     .then((user) => {
       // send user without password
@@ -94,8 +92,6 @@ const createUser = (req, res, next) => {
           data: {
             email: user.email,
             name: user.name,
-            about: user.about,
-            avatar: user.avatar,
           },
         });
     })
