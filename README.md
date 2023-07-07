@@ -10,7 +10,7 @@ API для обеспечения работы проекта Movies Explorer
 
 [Ссылка на репозиторий фронтенда](https://github.com/Inc0re/react-mesto-auth)
 
-API URL: !!! ссылка на API
+API URL: [https://api.pandex.team](https://api.pandex.team)
 
 ## Стек
 
@@ -56,7 +56,6 @@ JS, Node.js, Express.js, MongoDB, Mongoose, Editorconfig, ESlint (airbnb-base), 
 
 * / GET — получает список всех фильмов сохраненных текущим пользователем
 * / POST — создает фильм с полями `country`, `director`, `duration`, `year`, `description`, `image`, `trailer`, `nameRU`, `nameEN`, `thumbnail`, `movieId`, `owner`
-
 * /:movieId DELETE — удаляет фильм если текущий пользователь соответствует владельцу или является администратором
 
 ### Прочее
