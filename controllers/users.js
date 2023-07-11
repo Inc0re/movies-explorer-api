@@ -67,6 +67,9 @@ const updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
       }
+      if (err.code === mongoDuplicateKeyError) {
+        return next(new ConflictError('Пользователь с таким email уже существует'));
+      }
       return next(err);
     });
 };
