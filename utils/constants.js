@@ -1,6 +1,9 @@
 require('dotenv').config();
 
-const { JWT_SECRET = 'super-secret-key' } = process.env;
+const {
+  JWT_SECRET = 'super-secret-key',
+  DB_PATH = 'mongodb://localhost:27017/bitfilmsdb',
+} = process.env;
 
 module.exports = {
   badRequestError: 400,
@@ -14,7 +17,7 @@ module.exports = {
   saltRounds: 10,
   jwtSecret: JWT_SECRET,
   urlTemplate: /(https?:\/\/)(www\.)?([a-z\d-]+\.)+([a-z]{2,6})(\/[A-Za-z\d\-._~:/?#[\]@!$&'()*+,;=]+)*\/?$/,
-  mongoDBpath: 'mongodb://localhost:27017/bitfilmsdb',
+  mongoDBpath: DB_PATH,
   corsOrigins: [
     'http://localhost:3000',
     '*', // !!! replace with production domain
