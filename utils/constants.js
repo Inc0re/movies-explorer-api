@@ -20,6 +20,6 @@ module.exports = {
   mongoDBpath: DB_PATH,
   corsOrigins: [
     'http://localhost:3000',
-    '*', // !!! replace with production domain
+    'https://pandex.team', // !!! replace with production domain
   ],
 };
